@@ -1,101 +1,94 @@
-Army Builder
+# Army Builder
 
-Army Builder is a full-stack Warhammer 40,000 army list builder created as the final project for Coding Factory.
+Army Builder is a full-stack Warhammer 40,000 army list builder created as the final project for Coding Factory 9.
 
 The application allows users to register, log in, create faction-based army lists, add units, choose a Warlord, and validate an army against a small set of list-building rules. Administrators can manage the army catalog and user roles.
 
-Features
+## Features
 
-Users
+### Users
 
-Register and log in with JWT authentication
+- Register and log in with JWT authentication
+- View only their own army lists
+- Create, rename, and delete armies
+- Choose a faction and one of its detachments
+- Add and remove units
+- Select a Character as Warlord
+- Search and sort army lists
+- View live army validation and total points
 
-View only their own army lists
-
-Create, rename, and delete armies
-
-Choose a faction and one of its detachments
-
-Add and remove units
-
-Select a Character as Warlord
-
-Search and sort army lists
-
-View live army validation and total points
-
-Army validation
+### Army validation
 
 An army is considered valid when:
 
-It has exactly one Warlord
-
-The Warlord is a Character
-
-A Character unit does not exceed 3 copies
-
-The army does not exceed its selected points limit
-
-Units belong to the same faction as the army
+- It has exactly one Warlord
+- The Warlord is a Character
+- A Character unit does not exceed 3 copies
+- The army does not exceed its selected points limit
+- Units belong to the same faction as the army
 
 Invalid drafts are allowed so the user can continue editing before saving a valid list.
 
-Administrators
+### Administrators
 
 Administrators can:
 
-Create and delete factions
-
-Create and delete detachments
-
-Create, edit, and delete units
-
-Promote users to ADMIN
-
-Demote ADMIN users to USER
+- Create and delete factions
+- Create and delete detachments
+- Create, edit, and delete units
+- Promote users to ADMIN
+- Demote ADMIN users to USER
 
 Administrators cannot delete user accounts. This is intentionally not implemented so account ownership and historical army data are preserved and destructive user-management actions remain outside the scope of the project.
 
-Technology Stack
+## Screenshots
 
-Frontend
+### My Armies and Admin Navigation
 
-React
+![My Armies and Admin Navigation](docs/screenshots/main-page.png)
 
-TypeScript
+### Create Army
 
-Vite
+![Create Army](docs/screenshots/create-army.png)
 
-Tailwind CSS
+### Army Builder and Validation
 
-React Router
+![Army Builder and Validation](docs/screenshots/army-builder.png)
 
-Lucide React
+### Admin Panel
 
-Backend
+![Admin Panel](docs/screenshots/admin-panel.png)
 
-Python
+## Technology Stack
 
-FastAPI
+### Frontend
 
-SQLAlchemy
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Lucide React
 
-Pydantic
+### Backend
 
-JWT authentication with PyJWT
+- Python
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- JWT authentication with PyJWT
+- Argon2 password hashing with pwdlib
 
-Argon2 password hashing with pwdlib
+### Database
 
-Database
+- PostgreSQL 17
+- Docker Compose
 
-PostgreSQL 17
-
-Docker Compose
-
-Architecture
+## Architecture
 
 The backend follows a layered structure:
 
+```text
 Router / Controller
         |
       Service
@@ -105,21 +98,25 @@ Router / Controller
    SQLAlchemy ORM
         |
     PostgreSQL
+```
 
 The main domain entities are:
 
+```text
 User
 Faction
 Detachment
 Unit
 Army
 ArmyUnit
+```
 
 SQLAlchemy relationships and foreign keys connect the entities.
 
-Project Structure
+## Project Structure
 
-cf9-final-project/
+```text
+Army-Builder/
 |
 |-- backend/
 |   |-- app/
@@ -134,6 +131,9 @@ cf9-final-project/
 |   |-- .env.example
 |   `-- requirements.txt
 |
+|-- postman/
+|   `-- Army Builder API.postman_collection.json
+|
 |-- src/
 |   |-- components/
 |   |-- pages/
@@ -143,44 +143,49 @@ cf9-final-project/
 |-- docker-compose.yml
 |-- package.json
 `-- README.md
+```
 
-Requirements
+## Requirements
 
 Install these before running the application:
 
-Python
+- Python
+- Node.js and npm
+- Docker Desktop
+- Git
 
-Node.js and npm
+## Setup
 
-Docker Desktop
+### 1. Clone the repository
 
-Git
+```bash
+git clone https://github.com/lazarosarvanitis/Army-Builder.git
+cd Army-Builder
+```
 
-Setup
-
-1. Clone the repository
-
-git clone https://github.com/lazarosarvanitis/cf9-final-project.git
-cd cf9-final-project
-
-2. Start PostgreSQL
+### 2. Start PostgreSQL
 
 From the project root:
 
+```bash
 docker compose up -d
+```
 
-The Docker configuration creates a PostgreSQL database named army_builder on port 5432.
+The Docker configuration creates a PostgreSQL database named `army_builder` on port `5432`.
 
-3. Configure the backend environment
+### 3. Configure the backend environment
 
 Go to the backend directory:
 
+```bash
 cd backend
+```
 
-Create a local .env file based on .env.example.
+Create a local `.env` file based on `.env.example`.
 
 Example:
 
+```env
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/army_builder
 
 JWT_SECRET_KEY=your_secret_key_here
@@ -188,76 +193,92 @@ JWT_SECRET_KEY=your_secret_key_here
 SEED_ADMIN_USERNAME=superadmin
 SEED_ADMIN_PASSWORD=change_me
 SEED_ADMIN_EMAIL=superadmin@armybuilder.local
+```
 
 Generate a JWT secret with:
 
+```bash
 python -c "import secrets; print(secrets.token_hex(32))"
+```
 
-The real .env file is excluded from Git and should never be committed.
+The real `.env` file is excluded from Git and should never be committed.
 
-4. Create and activate the Python virtual environment
+### 4. Create and activate the Python virtual environment
 
 Windows PowerShell:
 
+```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
+```
 
 Install backend dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
-5. Seed the database
+### 5. Seed the database
 
-From the backend directory:
+From the `backend` directory:
 
+```bash
 python -m app.seed
+```
 
 The seed is idempotent and can safely be run again without duplicating the seeded catalog data.
 
 It creates:
 
-An administrator account using the values from .env
+- An administrator account using the values from `.env`
+- Grey Knights
+- Adeptus Custodes
+- Eldar
+- Example detachments and units
+- Three sample army lists
 
-Grey Knights
+### 6. Start the backend
 
-Adeptus Custodes
+From the `backend` directory:
 
-Eldar
-
-Example detachments and units
-
-Three sample army lists
-
-6. Start the backend
-
-From the backend directory:
-
+```bash
 uvicorn app.main:app --reload
+```
 
 Backend:
 
+```text
 http://127.0.0.1:8000
+```
 
 Swagger UI:
 
+```text
 http://127.0.0.1:8000/docs
+```
 
-7. Start the frontend
+### 7. Start the frontend
 
 Open another terminal in the project root:
 
+```bash
 npm install
 npm run dev
+```
 
 Frontend:
 
+```text
 http://localhost:5173
+```
 
-Production frontend build
+### Production frontend build
 
+```bash
 npm run build
+```
 
-Authentication and Authorization
+## Authentication and Authorization
 
 Passwords are hashed with Argon2 and are never stored as plain text.
 
@@ -265,8 +286,10 @@ Successful login returns a JWT access token. Protected backend routes require th
 
 The application supports two roles:
 
+```text
 USER
 ADMIN
+```
 
 A USER can manage only their own armies.
 
@@ -274,76 +297,63 @@ ADMIN-only routes are protected by backend authorization checks. The backend re-
 
 Army ownership is also checked by the backend, so a user cannot access another user's army by manually changing an army ID.
 
-Main API Groups
+## Main API Groups
 
+```text
 /api/auth
 /api/factions
 /api/detachments
 /api/units
 /api/armies
 /api/armies/{army_id}/units
+```
 
 Examples include:
 
-User registration and login
-
-Current-user lookup
-
-User role management
-
-Faction, detachment, and unit catalog management
-
-Army creation, retrieval, rename, validation, and deletion
-
-Adding and removing army units
-
-Setting and removing a Warlord
+- User registration and login
+- Current-user lookup
+- User role management
+- Faction, detachment, and unit catalog management
+- Army creation, retrieval, rename, validation, and deletion
+- Adding and removing army units
+- Setting and removing a Warlord
 
 The full endpoint documentation and request schemas are available through Swagger UI.
 
-Swagger documentation is intentionally publicly accessible for evaluation and development. In a production deployment, /docs, /redoc, and /openapi.json could be disabled or restricted. The application API endpoints are independently protected by authentication, authorization, role, and ownership checks where required.
+Swagger documentation is intentionally publicly accessible for evaluation and development. In a production deployment, `/docs`, `/redoc`, and `/openapi.json` could be disabled or restricted. The application API endpoints are independently protected by authentication, authorization, role, and ownership checks where required.
 
-Testing
+## Testing
 
 The project was manually regression tested through the React frontend and the REST API.
 
 Integration testing was also performed with Postman, including:
 
-User registration
+- User registration
+- Login and JWT retrieval
+- Current-user authentication
+- Public catalog retrieval
+- Army creation
+- Army retrieval
+- Adding a unit
+- Setting a Warlord
+- Army validation
+- Verification that a normal USER receives `403 Forbidden` when attempting to access an ADMIN-only endpoint
 
-Login and JWT retrieval
-
-Current-user authentication
-
-Public catalog retrieval
-
-Army creation
-
-Army retrieval
-
-Adding a unit
-
-Setting a Warlord
-
-Army validation
-
-Verification that a normal USER receives 403 Forbidden when attempting to access an ADMIN-only endpoint
+The exported Postman collection is included in the `postman/` directory.
 
 Swagger UI can also be used to inspect and test the REST API.
 
-Seeded Demo Data
+## Seeded Demo Data
 
 The seed provides three factions with example armies:
 
-Grey Knights — Titan's Wraith
-
-Adeptus Custodes — Golden Host
-
-Eldar — Exodites
+- Grey Knights — `Titan's Wraith`
+- Adeptus Custodes — `Golden Host`
+- Eldar — `Exodites`
 
 The seed data gives the evaluator usable catalog and army data immediately after setup.
 
-Disclaimer
+## Disclaimer
 
 Warhammer 40,000 and related names are trademarks of Games Workshop Limited.
 
