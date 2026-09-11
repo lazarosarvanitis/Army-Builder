@@ -232,7 +232,7 @@ From the `backend` directory:
 python -m app.seed
 ```
 
-The seed is idempotent and can safely be run again without duplicating the seeded catalog data.
+The seed can be run multiple times safely without creating duplicate seeded data.
 
 It creates:
 
