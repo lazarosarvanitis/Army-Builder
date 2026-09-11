@@ -205,6 +205,162 @@
     },
     {
       "name": "Add Unit to Army",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/armies/45/units/3",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "armies",
+            "45",
+            "units",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Set Warlord",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/armies/45/units/3/warlord",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "armies",
+            "45",
+            "units",
+            "3",
+            "warlord"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Validate Army",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/armies/4/validation",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "armies",
+            "4",
+            "validation"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User Cannot Access Admin",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Faction Units",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const units = pm.response.json();\r",
+              "\r",
+              "const librarian = units.find(\r",
+              "    unit => unit.name === \"Brotherhood Librarian\"\r",
+              ");\r",
+              "\r",
+              "if (librarian) {\r",
+              "    pm.collectionVariables.set(\"unitId\", librarian.id);\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -220,30 +376,6 @@
             "1"
           ]
         }
-      },
-      "response": []
-    },
-    {
-      "name": "Set Warlord",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
-    },
-    {
-      "name": "Validate Army",
-      "request": {
-        "method": "GET",
-        "header": []
-      },
-      "response": []
-    },
-    {
-      "name": "User Cannot Access Admin",
-      "request": {
-        "method": "GET",
-        "header": []
       },
       "response": []
     }
@@ -278,8 +410,19 @@
       "value": ""
     },
     {
+      "key": "accessToken",
+      "value": "",
+      "type": "default"
+    },
+    {
       "key": "armyId",
-      "value": ""
+      "value": "",
+      "type": "default"
+    },
+    {
+      "key": "unitId",
+      "value": "",
+      "type": "default"
     }
   ]
 }
