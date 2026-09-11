@@ -158,7 +158,7 @@ Install these before running the application:
 
 ### 1. Clone the repository
 
-```bash
+```powershell
 git clone https://github.com/lazarosarvanitis/Army-Builder.git
 cd Army-Builder
 ```
@@ -167,7 +167,7 @@ cd Army-Builder
 
 From the project root:
 
-```bash
+```powershell
 docker compose up -d
 ```
 
@@ -177,11 +177,15 @@ The Docker configuration creates a PostgreSQL database named `army_builder` on p
 
 Go to the backend directory:
 
-```bash
+```powershell
 cd backend
 ```
 
 Create a local `.env` file based on `.env.example`.
+
+```powershell
+Copy-Item .env.example .env
+```
 
 Example:
 
@@ -197,11 +201,13 @@ SEED_ADMIN_EMAIL=superadmin@armybuilder.gr
 
 Generate a JWT secret with:
 
-```bash
+```powershell
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-The real `.env` file is excluded from Git and should never be committed.
+And then copy the generated value into JWT_SECRET_KEY in your .env file.
+
+The real `.env` file is excluded from Git.
 
 ### 4. Create and activate the Python virtual environment
 
@@ -209,12 +215,12 @@ Windows PowerShell:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\activate
+.\.venv\Scripts\Activate.ps1
 ```
 
 Install backend dependencies:
 
-```bash
+```powershell
 pip install -r requirements.txt
 ```
 
@@ -222,7 +228,7 @@ pip install -r requirements.txt
 
 From the `backend` directory:
 
-```bash
+```powershell
 python -m app.seed
 ```
 
@@ -239,10 +245,16 @@ It creates:
 
 ### 6. Start the backend
 
-From the `backend` directory:
+From the `backend` directory, make sure the virtual environment is active:
 
-```bash
-uvicorn app.main:app --reload
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Then start the backend:
+
+```powershell
+python -m uvicorn app.main:app --reload
 ```
 
 Backend:
@@ -261,12 +273,12 @@ http://127.0.0.1:8000/docs
 
 Open another terminal in the project root:
 
-```bash
+```powershell
 npm install
 npm run dev
 ```
 
-Frontend:
+Open Frontend:
 
 ```text
 http://localhost:5173
@@ -274,7 +286,8 @@ http://localhost:5173
 
 ### Production frontend build
 
-```bash
+To verify that the frontend can be successfully compiled and optimized for production:
+```powershell
 npm run build
 ```
 
