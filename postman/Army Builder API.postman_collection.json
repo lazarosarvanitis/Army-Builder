@@ -3,8 +3,7 @@
     "_postman_id": "e67376ce-e063-45e5-9e12-8d38d0ee7de2",
     "name": "Army Builder API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "52666215",
-    "_collection_link": "https://go.postman.co/collection/52666215-e67376ce-e063-45e5-9e12-8d38d0ee7de2?source=collection_link"
+    "_exporter_id": "52666215"
   },
   "item": [
     {
@@ -14,7 +13,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"username\": \"postmanuser\",\r\n  \"email\": \"postmanuser@example.com\",\r\n  \"password\": \"test123\"\r\n}",
+          "raw": "{\n  \"username\": \"postmanuser\",\n  \"email\": \"postmanuser@example.com\",\n  \"password\": \"test123\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -42,12 +41,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "const response = pm.response.json();\r",
+              "const response = pm.response.json();",
               "pm.collectionVariables.set(\"accessToken\", response.access_token);"
             ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
+            "type": "text/javascript"
           }
         }
       ],
@@ -60,14 +57,12 @@
             {
               "key": "username",
               "value": "postmanuser",
-              "type": "text",
-              "uuid": "b38f262a-0628-430c-b005-6eb71544529a"
+              "type": "text"
             },
             {
               "key": "password",
               "value": "test123",
-              "type": "text",
-              "uuid": "90b9d263-956f-4671-9463-2f5947955641"
+              "type": "text"
             }
           ]
         },
@@ -118,7 +113,18 @@
       "name": "Get Factions",
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/factions/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "factions",
+            ""
+          ]
+        }
       },
       "response": []
     },
@@ -129,12 +135,10 @@
           "listen": "test",
           "script": {
             "exec": [
-              "const response = pm.response.json();\r",
+              "const response = pm.response.json();",
               "pm.collectionVariables.set(\"armyId\", response.id);"
             ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
+            "type": "text/javascript"
           }
         }
       ],
@@ -153,7 +157,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"name\": \"Postman Test Army\",\r\n  \"points_limit\": 2000,\r\n  \"faction_id\": 1,\r\n  \"detachment_id\": 1\r\n}",
+          "raw": "{\n  \"name\": \"Postman Test Army\",\n  \"points_limit\": 2000,\n  \"faction_id\": 1,\n  \"detachment_id\": 1\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -204,20 +208,46 @@
       "response": []
     },
     {
-      "name": "Add Unit to Army",
+      "name": "Get Faction Units",
       "event": [
         {
           "listen": "test",
           "script": {
             "exec": [
-              ""
+              "const units = pm.response.json();",
+              "",
+              "const librarian = units.find(",
+              "    unit => unit.name === \"Brotherhood Librarian\"",
+              ");",
+              "",
+              "if (librarian) {",
+              "    pm.collectionVariables.set(\"unitId\", librarian.id);",
+              "}"
             ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
+            "type": "text/javascript"
           }
         }
       ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/units/faction/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "units",
+            "faction",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Unit to Army",
       "request": {
         "auth": {
           "type": "bearer",
@@ -232,16 +262,16 @@
         "method": "POST",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/armies/45/units/3",
+          "raw": "{{baseUrl}}/api/armies/{{armyId}}/units/{{unitId}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "api",
             "armies",
-            "45",
+            "{{armyId}}",
             "units",
-            "3"
+            "{{unitId}}"
           ]
         }
       },
@@ -263,16 +293,16 @@
         "method": "PATCH",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/armies/45/units/3/warlord",
+          "raw": "{{baseUrl}}/api/armies/{{armyId}}/units/{{unitId}}/warlord",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "api",
             "armies",
-            "45",
+            "{{armyId}}",
             "units",
-            "3",
+            "{{unitId}}",
             "warlord"
           ]
         }
@@ -295,14 +325,14 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/armies/4/validation",
+          "raw": "{{baseUrl}}/api/armies/{{armyId}}/validation",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "api",
             "armies",
-            "4",
+            "{{armyId}}",
             "validation"
           ]
         }
@@ -337,77 +367,12 @@
         }
       },
       "response": []
-    },
-    {
-      "name": "Get Faction Units",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "const units = pm.response.json();\r",
-              "\r",
-              "const librarian = units.find(\r",
-              "    unit => unit.name === \"Brotherhood Librarian\"\r",
-              ");\r",
-              "\r",
-              "if (librarian) {\r",
-              "    pm.collectionVariables.set(\"unitId\", librarian.id);\r",
-              "}"
-            ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/api/units/faction/1",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "units",
-            "faction",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
     }
   ],
   "variable": [
     {
       "key": "baseUrl",
-      "value": ""
+      "value": "http://127.0.0.1:8000"
     },
     {
       "key": "accessToken",
