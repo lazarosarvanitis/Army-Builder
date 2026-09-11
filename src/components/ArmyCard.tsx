@@ -51,7 +51,7 @@ const ArmyCard = ({
             onClick={() => navigate(`/armies/${id}`)}
             title={name}
             className={`
-                flex h-[145px] w-[190px] cursor-pointer
+                flex h-36 w-48 cursor-pointer
                 flex-col justify-between overflow-hidden rounded-md
                 border p-4 transition
                 ${factionStyle}
@@ -60,11 +60,11 @@ const ArmyCard = ({
 
             <div className="min-w-0">
 
-                <p className="truncate text-[11px] uppercase tracking-wider text-muted">
+                <p className="truncate text-xs uppercase tracking-wider text-muted">
                     {faction}
                 </p>
 
-                <h2 className="mt-1 break-words text-[15px] font-semibold leading-tight">
+                <h2 className="mt-1 wrap-break-word text-sm font-semibold leading-tight">
                     {name}
                 </h2>
 

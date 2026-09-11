@@ -130,7 +130,7 @@ const ArmyListPage = () => {
 
 
     return (
-        <div className="mx-auto max-w-[1500px] px-6 py-8">
+        <div className="mx-auto max-w-375 px-6 py-8">
 
             <div className="mb-8 text-center">
 
@@ -159,7 +159,7 @@ const ArmyListPage = () => {
 
             {showSearch && (
 
-                <div className="relative mx-auto mb-6 max-w-[500px]">
+                <div className="relative mx-auto mb-6 max-w-125">
 
                     <Search
                         size={18}
@@ -193,13 +193,13 @@ const ArmyListPage = () => {
             )}
 
 
-            <div className="grid grid-cols-[repeat(auto-fit,190px)] justify-center gap-3 pb-5">
+            <div className="flex flex-wrap justify-center gap-3 pb-5">
 
                 {/* CREATE ARMY */}
                 <button
                     onClick={() => navigate("/armies/create")}
                     className="
-                        flex h-[145px] w-[190px] cursor-pointer
+                        flex h-36.25 w-48 cursor-pointer
                         flex-col items-center justify-center gap-2 rounded-md
                         border border-border bg-card
                         transition hover:bg-card-hover
@@ -220,7 +220,7 @@ const ArmyListPage = () => {
                 <button
                     onClick={handleSearchToggle}
                     className={`
-                        flex h-[145px] w-[190px] cursor-pointer
+                        flex h-36 w-48 cursor-pointer
                         flex-col items-center justify-center gap-2 rounded-md
                         border bg-card
                         transition hover:bg-card-hover
@@ -265,7 +265,7 @@ const ArmyListPage = () => {
                 {loading && (
 
                     <div className="
-                        flex h-[145px] w-[190px]
+                        flex h-36 w-48
                         items-center justify-center rounded-md
                         border border-border bg-card
                         text-sm text-muted
@@ -282,7 +282,7 @@ const ArmyListPage = () => {
                     armies.length === 0 && (
 
                         <div className="
-                            flex h-[145px] w-[190px]
+                            flex h-36 w-48
                             items-center justify-center rounded-md
                             border border-border bg-card
                             px-6 text-center text-sm text-muted
@@ -300,7 +300,7 @@ const ArmyListPage = () => {
                     filteredArmies.length === 0 && (
 
                         <div className="
-                            flex h-[145px] w-[190px]
+                            flex h-36 w-48
                             items-center justify-center rounded-md
                             border border-border bg-card
                             px-6 text-center text-sm text-muted

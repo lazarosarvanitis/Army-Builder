@@ -183,7 +183,7 @@ const CreateArmyPage = () => {
 
 
     return (
-        <div className="mx-auto max-w-[900px] px-6 py-8">
+        <div className="mx-auto max-w-225 px-6 py-8">
 
             <button
                 onClick={() => navigate("/")}

@@ -67,7 +67,7 @@ const Header = () => {
     return (
         <header className="border-b border-border bg-[#111318]">
 
-            <div className="mx-auto flex h-14 max-w-[1500px] items-center justify-between px-6">
+            <div className="mx-auto flex h-14 max-w-375 items-center justify-between px-6">
 
                 <button
                     onClick={() => navigateTo("/")}
@@ -106,7 +106,7 @@ const Header = () => {
                         {menuOpen && (
 
                             <div
-                                className="absolute right-0 top-9 z-50 w-52 overflow-hidden rounded-lg border border-gray-700 bg-[#181b20] shadow-xl"
+                                className="absolute right-0 top-9 z-50 w-52 overflow-hidden rounded-lg border border-gray-700 bg-card shadow-xl"
                             >
 
                                 <button

@@ -601,7 +601,7 @@ const AdminPage = () => {
     if (loading) {
 
         return (
-            <main className="flex min-h-[calc(100vh-56px)] items-center justify-center bg-[#0d0f12] text-gray-400">
+            <main className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background text-gray-400">
                 Loading admin panel...
             </main>
         )
@@ -609,9 +609,9 @@ const AdminPage = () => {
 
 
     return (
-        <main className="min-h-[calc(100vh-56px)] bg-[#0d0f12] px-6 py-10 text-white">
+        <main className="min-h-[calc(100vh-3.5rem)] bg-background px-6 py-10 text-white">
 
-            <div className="mx-auto max-w-[1400px]">
+            <div className="mx-auto max-w-350">
 
                 {/* PAGE HEADER */}
 
@@ -731,7 +731,7 @@ const AdminPage = () => {
                         </form>
 
 
-                        <div className="max-h-[420px] overflow-y-auto p-3">
+                        <div className="max-h-105 overflow-y-auto p-3">
 
                             {factions.map((faction) => (
 
@@ -848,7 +848,7 @@ const AdminPage = () => {
                         </form>
 
 
-                        <div className="max-h-[420px] overflow-y-auto p-3">
+                        <div className="max-h-105 overflow-y-auto p-3">
 
                             {detachments.map((detachment) => (
 
@@ -1098,7 +1098,7 @@ const AdminPage = () => {
 
                         {/* UNIT LIST */}
 
-                        <div className="max-h-[500px] overflow-y-auto p-3">
+                        <div className="max-h-125 overflow-y-auto p-3">
 
                             {sortedFilteredUnits.length === 0 && (
 

@@ -114,7 +114,7 @@ class UnitService:
 
         # CHECK IF A UNIT WITH THE SAME NAME AND FACTION ALREADY EXISTS
         if (
-            existing_unit is not None      
+            existing_unit is not None
             and existing_unit.id != unit_id
         ):
             raise ValueError("Unit already exists")
@@ -135,6 +135,9 @@ class UnitService:
         if unit is None:
             raise ValueError("Unit not found")
 
-        return self.unit_repository.delete(unit_id)
+        if unit.army_units:
+            raise ValueError(
+                "Unit cannot be deleted because it is used by armies"
+            )
 
-    
+        return self.unit_repository.delete(unit_id)

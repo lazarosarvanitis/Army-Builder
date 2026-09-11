@@ -46,7 +46,7 @@ const AdminRoute = () => {
     if (loading) {
 
         return (
-            <div className="flex min-h-[calc(100vh-56px)] items-center justify-center bg-[#0d0f12] text-gray-400">
+            <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background text-gray-400">
                 Checking authorization...
             </div>
         )

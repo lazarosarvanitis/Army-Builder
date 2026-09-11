@@ -884,7 +884,7 @@ const ArmyPage = () => {
     if (loading) {
 
         return (
-            <div className="mx-auto max-w-[1300px] px-6 py-8">
+            <div className="mx-auto max-w-325 px-6 py-8">
 
                 <p className="text-muted">
                     Loading army...
@@ -898,7 +898,7 @@ const ArmyPage = () => {
     if (!army) {
 
         return (
-            <div className="mx-auto max-w-[1300px] px-6 py-8">
+            <div className="mx-auto max-w-325 px-6 py-8">
 
                 <h1 className="text-2xl font-semibold">
                     Army not found
@@ -933,7 +933,7 @@ const ArmyPage = () => {
     return (
         <div className={`min-h-screen ${theme.pageBackground}`}>
 
-            <div className="mx-auto max-w-[1300px] px-6 py-8">
+            <div className="mx-auto max-w-325 px-6 py-8">
 
                 <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
 
@@ -1014,7 +1014,7 @@ const ArmyPage = () => {
 
                         <div className="mt-1 flex items-center gap-3">
 
-                            <h1 className="break-words text-3xl font-semibold">
+                            <h1 className="wrap-break-word text-3xl font-semibold">
                                 {armyName}
                             </h1>
 
@@ -1035,7 +1035,7 @@ const ArmyPage = () => {
 
                     {isEditingName && (
 
-                        <div className="mt-2 flex max-w-[500px] items-center gap-2">
+                        <div className="mt-2 flex max-w-125 items-center gap-2">
 
                             <input
                                 type="text"
@@ -1722,7 +1722,7 @@ const ArmyPage = () => {
 
 
                                                         <span
-                                                            className={`min-w-[30px] text-center text-sm font-semibold ${
+                                                            className={`min-w-8 text-center text-sm font-semibold ${
                                                                 characterLimitExceeded
                                                                     ? "text-red-400"
                                                                     : ""
