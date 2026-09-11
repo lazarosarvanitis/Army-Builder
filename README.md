@@ -1,32 +1,350 @@
-# React + TypeScript + Vite
+Army Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Army Builder is a full-stack Warhammer 40,000 army list builder created as the final project for Coding Factory.
 
-Currently, two official plugins are available:
+The application allows users to register, log in, create faction-based army lists, add units, choose a Warlord, and validate an army against a small set of list-building rules. Administrators can manage the army catalog and user roles.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Features
 
-## React Compiler
+Users
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Register and log in with JWT authentication
 
-## Expanding the Oxlint configuration
+View only their own army lists
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Create, rename, and delete armies
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+Choose a faction and one of its detachments
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Add and remove units
+
+Select a Character as Warlord
+
+Search and sort army lists
+
+View live army validation and total points
+
+Army validation
+
+An army is considered valid when:
+
+It has exactly one Warlord
+
+The Warlord is a Character
+
+A Character unit does not exceed 3 copies
+
+The army does not exceed its selected points limit
+
+Units belong to the same faction as the army
+
+Invalid drafts are allowed so the user can continue editing before saving a valid list.
+
+Administrators
+
+Administrators can:
+
+Create and delete factions
+
+Create and delete detachments
+
+Create, edit, and delete units
+
+Promote users to ADMIN
+
+Demote ADMIN users to USER
+
+Administrators cannot delete user accounts. This is intentionally not implemented so account ownership and historical army data are preserved and destructive user-management actions remain outside the scope of the project.
+
+Technology Stack
+
+Frontend
+
+React
+
+TypeScript
+
+Vite
+
+Tailwind CSS
+
+React Router
+
+Lucide React
+
+Backend
+
+Python
+
+FastAPI
+
+SQLAlchemy
+
+Pydantic
+
+JWT authentication with PyJWT
+
+Argon2 password hashing with pwdlib
+
+Database
+
+PostgreSQL 17
+
+Docker Compose
+
+Architecture
+
+The backend follows a layered structure:
+
+Router / Controller
+        |
+      Service
+        |
+    Repository
+        |
+   SQLAlchemy ORM
+        |
+    PostgreSQL
+
+The main domain entities are:
+
+User
+Faction
+Detachment
+Unit
+Army
+ArmyUnit
+
+SQLAlchemy relationships and foreign keys connect the entities.
+
+Project Structure
+
+cf9-final-project/
+|
+|-- backend/
+|   |-- app/
+|   |   |-- models/
+|   |   |-- repositories/
+|   |   |-- routers/
+|   |   |-- schemas/
+|   |   |-- services/
+|   |   |-- database.py
+|   |   |-- main.py
+|   |   `-- seed.py
+|   |-- .env.example
+|   `-- requirements.txt
+|
+|-- src/
+|   |-- components/
+|   |-- pages/
+|   |-- services/
+|   `-- ...
+|
+|-- docker-compose.yml
+|-- package.json
+`-- README.md
+
+Requirements
+
+Install these before running the application:
+
+Python
+
+Node.js and npm
+
+Docker Desktop
+
+Git
+
+Setup
+
+1. Clone the repository
+
+git clone https://github.com/lazarosarvanitis/cf9-final-project.git
+cd cf9-final-project
+
+2. Start PostgreSQL
+
+From the project root:
+
+docker compose up -d
+
+The Docker configuration creates a PostgreSQL database named army_builder on port 5432.
+
+3. Configure the backend environment
+
+Go to the backend directory:
+
+cd backend
+
+Create a local .env file based on .env.example.
+
+Example:
+
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/army_builder
+
+JWT_SECRET_KEY=your_secret_key_here
+
+SEED_ADMIN_USERNAME=superadmin
+SEED_ADMIN_PASSWORD=change_me
+SEED_ADMIN_EMAIL=superadmin@armybuilder.local
+
+Generate a JWT secret with:
+
+python -c "import secrets; print(secrets.token_hex(32))"
+
+The real .env file is excluded from Git and should never be committed.
+
+4. Create and activate the Python virtual environment
+
+Windows PowerShell:
+
+python -m venv .venv
+.\.venv\Scripts\activate
+
+Install backend dependencies:
+
+pip install -r requirements.txt
+
+5. Seed the database
+
+From the backend directory:
+
+python -m app.seed
+
+The seed is idempotent and can safely be run again without duplicating the seeded catalog data.
+
+It creates:
+
+An administrator account using the values from .env
+
+Grey Knights
+
+Adeptus Custodes
+
+Eldar
+
+Example detachments and units
+
+Three sample army lists
+
+6. Start the backend
+
+From the backend directory:
+
+uvicorn app.main:app --reload
+
+Backend:
+
+http://127.0.0.1:8000
+
+Swagger UI:
+
+http://127.0.0.1:8000/docs
+
+7. Start the frontend
+
+Open another terminal in the project root:
+
+npm install
+npm run dev
+
+Frontend:
+
+http://localhost:5173
+
+Production frontend build
+
+npm run build
+
+Authentication and Authorization
+
+Passwords are hashed with Argon2 and are never stored as plain text.
+
+Successful login returns a JWT access token. Protected backend routes require the token through Bearer authentication.
+
+The application supports two roles:
+
+USER
+ADMIN
+
+A USER can manage only their own armies.
+
+ADMIN-only routes are protected by backend authorization checks. The backend re-checks the user's current database role for protected administrator operations.
+
+Army ownership is also checked by the backend, so a user cannot access another user's army by manually changing an army ID.
+
+Main API Groups
+
+/api/auth
+/api/factions
+/api/detachments
+/api/units
+/api/armies
+/api/armies/{army_id}/units
+
+Examples include:
+
+User registration and login
+
+Current-user lookup
+
+User role management
+
+Faction, detachment, and unit catalog management
+
+Army creation, retrieval, rename, validation, and deletion
+
+Adding and removing army units
+
+Setting and removing a Warlord
+
+The full endpoint documentation and request schemas are available through Swagger UI.
+
+Swagger documentation is intentionally publicly accessible for evaluation and development. In a production deployment, /docs, /redoc, and /openapi.json could be disabled or restricted. The application API endpoints are independently protected by authentication, authorization, role, and ownership checks where required.
+
+Testing
+
+The project was manually regression tested through the React frontend and the REST API.
+
+Integration testing was also performed with Postman, including:
+
+User registration
+
+Login and JWT retrieval
+
+Current-user authentication
+
+Public catalog retrieval
+
+Army creation
+
+Army retrieval
+
+Adding a unit
+
+Setting a Warlord
+
+Army validation
+
+Verification that a normal USER receives 403 Forbidden when attempting to access an ADMIN-only endpoint
+
+Swagger UI can also be used to inspect and test the REST API.
+
+Seeded Demo Data
+
+The seed provides three factions with example armies:
+
+Grey Knights — Titan's Wraith
+
+Adeptus Custodes — Golden Host
+
+Eldar — Exodites
+
+The seed data gives the evaluator usable catalog and army data immediately after setup.
+
+Disclaimer
+
+Warhammer 40,000 and related names are trademarks of Games Workshop Limited.
+
+This project is an educational, non-commercial software project and is not affiliated with or endorsed by Games Workshop.
